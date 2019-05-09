@@ -1,0 +1,62 @@
+name: AurityUHC
+author: Saikatsune
+version: 0.9.5-PRE-RELEASE
+main: net.saikatsune.aurityuhc.AurityUHC
+
+commands:
+  worldeditor:
+    permission: uhc.host
+  configeditor:
+    permission: uhc.host
+  bordereditor:
+    permission: uhc.host
+  scenarioseditor:
+    permission: uhc.host
+  setup:
+    permission: uhc.host
+  mutechat:
+    permission: uhc.host
+  start:
+    permission: uhc.host
+  time:
+    permission: uhc.host
+  heal:
+    permission: uhc.host
+  rates:
+    permission: uhc.host
+    aliases: [rate]
+  staff:
+    permission: uhc.host
+    aliases: [mod]
+  scatter:
+    permission: uhc.host
+    aliases: [latescatter]
+  respawn:
+    permission: uhc.host
+    aliases: [revive]
+  alerts:
+    permission: uhc.host
+    aliases: [togglealerts]
+  whitelist:
+    permission: uhc.host
+    aliases: [wl]
+  starterfood:
+    permission: uhc.host
+  giveall:
+    permission: uhc.host
+  health:
+    aliases: [h]
+  teamchat:
+    aliases: [tc]
+  sendcoords:
+    aliases: [sc]
+  backpack:
+    aliases: [bp]
+  killstop:
+    aliases: [kt]
+  team:
+  list:
+  helpop:
+  config:
+  scenarios:
+  stats:
