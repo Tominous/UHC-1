@@ -93,7 +93,7 @@ public class InventoryHandler {
     }
 
     public void handleConfigEditorInventory(Player player) {
-        Inventory inventory = Bukkit.createInventory(null, 9*1, mColor + "Config Editor");
+        Inventory inventory = Bukkit.createInventory(null, 9*3, mColor + "Config Editor");
 
         if(aurityUHC.getConfigManager().isNether()) {
             inventory.setItem(1, new ItemHandler(Material.OBSIDIAN).setDisplayName(mColor + "Nether §7§l➡ §aTRUE").build());
@@ -129,6 +129,11 @@ public class InventoryHandler {
             inventory.setItem(7, new ItemHandler(Material.ENDER_PEARL).setDisplayName(mColor + "Enderpearl Damage §7§l➡ §aTRUE").build());
         } else {
             inventory.setItem(7, new ItemHandler(Material.ENDER_PEARL).setDisplayName(mColor + "Enderpearl Damage §7§l➡ §cFALSE").build());
+        }
+        if(aurityUHC.isDatabaseActive()) {
+            inventory.setItem(22, new ItemHandler(Material.NETHER_STAR).setDisplayName(mColor + "Stats §7§l➡ §aTRUE").build());
+        } else {
+            inventory.setItem(22, new ItemHandler(Material.NETHER_STAR).setDisplayName(mColor + "Stats §7§l➡ §cFALSE").build());
         }
 
         this.fillEmptySlots(inventory);

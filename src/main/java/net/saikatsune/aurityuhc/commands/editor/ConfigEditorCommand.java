@@ -1,6 +1,8 @@
 package net.saikatsune.aurityuhc.commands.editor;
 
 import net.saikatsune.aurityuhc.AurityUHC;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,11 +12,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.sql.SQLException;
+
 public class ConfigEditorCommand implements CommandExecutor, Listener {
 
     private AurityUHC aurityUHC = AurityUHC.getInstance();
 
+    private String prefix = aurityUHC.getPrefix();
+
     private String mColor = aurityUHC.getmColor();
+    private String sColor = aurityUHC.getsColor();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -104,7 +111,38 @@ public class ConfigEditorCommand implements CommandExecutor, Listener {
                         aurityUHC.getInventoryHandler().handleConfigEditorInventory(player);
                     } else if(event.getCurrentItem().getType() == Material.STAINED_GLASS_PANE) {
                         event.setCancelled(true);
+                    } else if(event.getCurrentItem().getType() == Material.NETHER_STAR) {
+                        event.setCancelled(true);
+                        player.closeInventory();
+                        if(event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(mColor + "Stats §7§l➡ §aTRUE")) {
+                            player.sendMessage(prefix + ChatColor.RED + "Disconnecting from database...");
+                            try {
+                                aurityUHC.getDatabaseManager().disconnectFromDatabase();
+                                aurityUHC.setDatabaseActive(false);
+                                Bukkit.broadcastMessage(prefix + mColor + "Stats" + sColor + " are now " + ChatColor.RED + "disabled" + sColor + "!");
+                            } catch (SQLException e) {
+                                player.sendMessage(prefix + ChatColor.RED + "Cannot disconnect from database... It might not be connected, please restart your server!");
+                            }
+                        } else if(event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(mColor + "Stats §7§l➡ §cFALSE")) {
+                            player.sendMessage(prefix + ChatColor.GREEN + "Connecting to database...");
+                            try {
+                                aurityUHC.getDatabaseManager().connectToDatabase();
+                                player.sendMessage(prefix + ChatColor.GREEN + "Successfully connected to database!");
+                                player.sendMessage(prefix + ChatColor.YELLOW + "Creating tables if needed...");
+                            } catch (ClassNotFoundException | SQLException e) {
+                                player.sendMessage(prefix + ChatColor.RED + "Cannot connect to database... Check the credentials in the config file!");
+                            }
+                            try {
+                                aurityUHC.getDatabaseManager().createTable();
+                                player.sendMessage(prefix + ChatColor.GREEN + "Successfully created tables!");
+                                aurityUHC.setDatabaseActive(true);
+                                Bukkit.broadcastMessage(prefix + mColor + "Stats" + sColor + " are now " + ChatColor.GREEN + "enabled" + sColor + "!");
+                            } catch (SQLException e) {
+                                player.sendMessage(prefix + ChatColor.RED + "Cannot create tables... The database might not be connected.");
+                            }
+                        }
                     }
+                    aurityUHC.getInventoryHandler().handleConfigEditorInventory(player);
                 }
             }
         }

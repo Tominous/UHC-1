@@ -28,35 +28,35 @@ public class RespawnCommand implements CommandExecutor {
                     Player target = Bukkit.getPlayer(args[0]);
                     if(target != null) {
                         if(aurityUHC.getGameStateManager().getCurrentGameState() instanceof IngameState) {
-                            if(aurityUHC.isDatabaseActive()) {
-                                if(aurityUHC.getSpectators().contains(target)) {
-                                    if(aurityUHC.isDeathRegistered(target)) {
-                                        aurityUHC.getGameManager().setPlayerState(target, PlayerState.PLAYER);
+                            if(aurityUHC.getSpectators().contains(target)) {
+                                if(aurityUHC.isDeathRegistered(target)) {
+                                    aurityUHC.getGameManager().setPlayerState(target, PlayerState.PLAYER);
+
+                                    if(aurityUHC.isDatabaseActive()) {
                                         aurityUHC.getDatabaseManager().removeDeaths(target, 1);
-                                        target.teleport(aurityUHC.getDeathLocation().get(target.getUniqueId()));
-                                        target.getInventory().setContents(aurityUHC.getDeathInventory().get(target.getUniqueId()));
-                                        target.getInventory().setArmorContents(aurityUHC.getDeathArmor().get(target.getUniqueId()));
-                                        target.setLevel(aurityUHC.getDeathLevels().get(target.getUniqueId()));
-
-                                        aurityUHC.getLoggedPlayers().add(target.getUniqueId());
-                                        aurityUHC.getWhitelisted().add(target.getUniqueId());
-
-                                        if(aurityUHC.getGameManager().isTeamGame()) {
-                                            if(aurityUHC.getTeamManager().getTeams().containsKey(aurityUHC.getDeathTeamNumber().get(target.getUniqueId()))) {
-                                                aurityUHC.getTeamManager().addPlayerToTeam(aurityUHC.getDeathTeamNumber().get(target.getUniqueId()), target.getUniqueId());
-                                            } else {
-                                                aurityUHC.getTeamManager().createTeam(target.getUniqueId());
-                                            }
-                                        }
-                                        Bukkit.broadcastMessage(prefix + mColor + target.getName() + sColor + " has been re-spawned!");
-                                    } else {
-                                        player.sendMessage(prefix + ChatColor.RED + target.getName() + " hasn't died in this game!");
                                     }
+
+                                    target.teleport(aurityUHC.getDeathLocation().get(target.getUniqueId()));
+                                    target.getInventory().setContents(aurityUHC.getDeathInventory().get(target.getUniqueId()));
+                                    target.getInventory().setArmorContents(aurityUHC.getDeathArmor().get(target.getUniqueId()));
+                                    target.setLevel(aurityUHC.getDeathLevels().get(target.getUniqueId()));
+
+                                    aurityUHC.getLoggedPlayers().add(target.getUniqueId());
+                                    aurityUHC.getWhitelisted().add(target.getUniqueId());
+
+                                    if(aurityUHC.getGameManager().isTeamGame()) {
+                                        if(aurityUHC.getTeamManager().getTeams().containsKey(aurityUHC.getDeathTeamNumber().get(target.getUniqueId()))) {
+                                            aurityUHC.getTeamManager().addPlayerToTeam(aurityUHC.getDeathTeamNumber().get(target.getUniqueId()), target.getUniqueId());
+                                        } else {
+                                            aurityUHC.getTeamManager().createTeam(target.getUniqueId());
+                                        }
+                                    }
+                                    Bukkit.broadcastMessage(prefix + mColor + target.getName() + sColor + " has been re-spawned!");
                                 } else {
-                                    player.sendMessage(prefix + ChatColor.RED + target.getName() + " is already in game!");
+                                    player.sendMessage(prefix + ChatColor.RED + target.getName() + " hasn't died in this game!");
                                 }
                             } else {
-                                player.sendMessage(prefix + ChatColor.RED + "Stats are currently disabled!");
+                                player.sendMessage(prefix + ChatColor.RED + target.getName() + " is already in game!");
                             }
                         } else {
                             player.sendMessage(prefix + ChatColor.RED + "You cannot respawn players right now!");

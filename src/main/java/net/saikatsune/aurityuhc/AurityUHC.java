@@ -171,7 +171,6 @@ public class AurityUHC extends JavaPlugin {
 
             scoreboardManager.updateScoreboard();
         }
-
     }
 
     @Override
@@ -315,6 +314,16 @@ public class AurityUHC extends JavaPlugin {
         deathArmor.put(player.getUniqueId(), player.getInventory().getArmorContents());
         deathLevels.put(player.getUniqueId(), player.getLevel());
         deathTeamNumber.put(player.getUniqueId(), this.getTeamNumber().get(player.getUniqueId()));
+    }
+
+    public void setDatabaseActive(boolean databaseActive) {
+        this.databaseActive = databaseActive;
+
+        if(databaseActive) {
+            getConfig().set("MYSQL.ENABLED", false);
+        } else {
+            getConfig().set("MYSQL.ENABLED", true);
+        }
     }
 
     public boolean isDeathRegistered(Player player) {
