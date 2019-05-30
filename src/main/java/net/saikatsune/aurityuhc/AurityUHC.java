@@ -89,88 +89,92 @@ public class AurityUHC extends JavaPlugin {
     public void onEnable() {
         createConfigFile();
 
+        /*
         if(new AdvancedLicense(getConfig().getString("SECURITY.LICENSE-KEY"), "http://54.37.166.10/license/verify.php", this).register()) {
-            instance = this;
 
-            prefix = getConfig().getString("SETTINGS.PREFIX").replace("&", "§");
+        }
+         */
 
-            mColor = getConfig().getString("SETTINGS.MAIN-COLOR").replace("&", "§");
-            sColor = getConfig().getString("SETTINGS.SECONDARY-COLOR").replace("&", "§");
+        instance = this;
 
-            fileHandler = new FileHandler();
-            inventoryHandler = new InventoryHandler();
+        prefix = getConfig().getString("SETTINGS.PREFIX").replace("&", "§");
 
-            worldManager = new WorldManager();
-            gameStateManager = new GameStateManager();
-            locationManager = new LocationManager();
-            configManager = new ConfigManager();
-            gameManager = new GameManager();
-            teamManager = new TeamManager();
-            scoreboardManager = new ScoreboardManager();
-            databaseManager = new DatabaseManager();
+        mColor = getConfig().getString("SETTINGS.MAIN-COLOR").replace("&", "§");
+        sColor = getConfig().getString("SETTINGS.SECONDARY-COLOR").replace("&", "§");
 
-            gameStateManager.setGameState(GameState.LOBBY);
+        fileHandler = new FileHandler();
+        inventoryHandler = new InventoryHandler();
 
-            gameType = new HashMap<>();
-            playerState = new HashMap<>();
-            teamNumber = new HashMap<>();
-            teamInvitation = new HashMap<>();
-            playerKills = new HashMap<>();
+        worldManager = new WorldManager();
+        gameStateManager = new GameStateManager();
+        locationManager = new LocationManager();
+        configManager = new ConfigManager();
+        gameManager = new GameManager();
+        teamManager = new TeamManager();
+        scoreboardManager = new ScoreboardManager();
+        databaseManager = new DatabaseManager();
 
-            deathLocation = new HashMap<>();
-            deathTeamNumber = new HashMap<>();
-            deathInventory = new HashMap<>();
-            deathArmor = new HashMap<>();
-            deathLevels = new HashMap<>();
+        gameStateManager.setGameState(GameState.LOBBY);
 
-            players = new ArrayList<>();
-            spectators = new ArrayList<>();
+        gameType = new HashMap<>();
+        playerState = new HashMap<>();
+        teamNumber = new HashMap<>();
+        teamInvitation = new HashMap<>();
+        playerKills = new HashMap<>();
 
-            whitelisted = new ArrayList<>();
-            loggedPlayers = new ArrayList<>();
-            combatLoggedPlayers = new ArrayList<>();
+        deathLocation = new HashMap<>();
+        deathTeamNumber = new HashMap<>();
+        deathInventory = new HashMap<>();
+        deathArmor = new HashMap<>();
+        deathLevels = new HashMap<>();
 
-            receivePvpAlerts = new ArrayList<>();
-            receiveDiamondAlerts = new ArrayList<>();
-            receiveGoldAlerts = new ArrayList<>();
+        players = new ArrayList<>();
+        spectators = new ArrayList<>();
 
-            scatterTask = new ScatterTask();
-            timeTask = new TimeTask();
+        whitelisted = new ArrayList<>();
+        loggedPlayers = new ArrayList<>();
+        combatLoggedPlayers = new ArrayList<>();
 
-            inGrace = true;
-            chatMuted = false;
+        receivePvpAlerts = new ArrayList<>();
+        receiveDiamondAlerts = new ArrayList<>();
+        receiveGoldAlerts = new ArrayList<>();
 
-            databaseActive = getConfig().getBoolean("MYSQL.ENABLED");
+        scatterTask = new ScatterTask();
+        timeTask = new TimeTask();
 
-            limitationsListener = new LimitationsListener();
+        inGrace = true;
+        chatMuted = false;
 
-            gameType.put("GameType", GameType.SOLO);
+        databaseActive = getConfig().getBoolean("MYSQL.ENABLED");
 
-            if(databaseActive) {
-                try {
-                    databaseManager.connectToDatabase();
-                    getLogger().info("[MySQL] Connection to database could be made!");
-                } catch (ClassNotFoundException | SQLException e) {
-                    getLogger().info("[MySQL] Connection to database couldn't be made!");
-                }
+        limitationsListener = new LimitationsListener();
 
-                try {
-                    databaseManager.createTable();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    getLogger().info("[MySQL] Table creation couldn't be made!");
-                }
+        gameType.put("GameType", GameType.SOLO);
+
+        if(databaseActive) {
+            try {
+                databaseManager.connectToDatabase();
+                getLogger().info("[MySQL] Connection to database succeeded!");
+            } catch (ClassNotFoundException | SQLException e) {
+                getLogger().info("[MySQL] Connection to database failed!");
             }
 
-            init(Bukkit.getPluginManager());
-
-            gameManager.setWhitelisted(true);
-
-            worldManager.createWorld("uhc_world", World.Environment.NORMAL);
-            worldManager.createWorld("uhc_nether", World.Environment.NETHER);
-
-            scoreboardManager.updateScoreboard();
+            try {
+                databaseManager.createTable();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                getLogger().info("[MySQL] Table creation succeeded!");
+            }
         }
+
+        init(Bukkit.getPluginManager());
+
+        gameManager.setWhitelisted(true);
+
+        worldManager.createWorld("uhc_world", World.Environment.NORMAL);
+        worldManager.createWorld("uhc_nether", World.Environment.NETHER);
+
+        scoreboardManager.updateScoreboard();
     }
 
     @Override

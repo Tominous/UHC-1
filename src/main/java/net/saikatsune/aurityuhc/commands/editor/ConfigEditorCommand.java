@@ -128,21 +128,21 @@ public class ConfigEditorCommand implements CommandExecutor, Listener {
                             try {
                                 aurityUHC.getDatabaseManager().connectToDatabase();
                                 player.sendMessage(prefix + ChatColor.GREEN + "Successfully connected to database!");
-                                player.sendMessage(prefix + ChatColor.YELLOW + "Creating tables if needed...");
                             } catch (ClassNotFoundException | SQLException e) {
                                 player.sendMessage(prefix + ChatColor.RED + "Cannot connect to database... Check the credentials in the config file!");
                             }
                             try {
                                 aurityUHC.getDatabaseManager().createTable();
-                                player.sendMessage(prefix + ChatColor.GREEN + "Successfully created tables!");
                                 aurityUHC.setDatabaseActive(true);
                                 Bukkit.broadcastMessage(prefix + mColor + "Stats" + sColor + " are now " + ChatColor.GREEN + "enabled" + sColor + "!");
                             } catch (SQLException e) {
                                 player.sendMessage(prefix + ChatColor.RED + "Cannot create tables... The database might not be connected.");
                             }
+                        } else {
+                            return;
                         }
+                        aurityUHC.getInventoryHandler().handleConfigEditorInventory(player);
                     }
-                    aurityUHC.getInventoryHandler().handleConfigEditorInventory(player);
                 }
             }
         }
