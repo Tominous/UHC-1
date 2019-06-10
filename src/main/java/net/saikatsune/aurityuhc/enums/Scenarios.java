@@ -21,7 +21,7 @@ public enum Scenarios {
     NOFALL(false, new ItemHandler(Material.FEATHER).setDisplayName("§bNoFall").build(), new String[]{"You take no fall damage."}),
     BACKPACKS(false, new ItemHandler(Material.CHEST).setDisplayName("§bBackpacks").build(), new String[]{"You get backpacks which you can share with", " your team."}),
     BAREBONES(false, new ItemHandler(Material.BONE).setDisplayName("§bBarebones").build(), new String[]{"You can only mine iron, you get 1 diamond,", " 1 gapple, 32 arrows and 2 strings from a kill."}),
-    SOUP(false, new ItemHandler(Material.MUSHROOM_SOUP).setDisplayName("§bSoup").build(), new String[]{"When you right click a soup, you regain", "2 hearts."}),
+    SOUP(false, new ItemHandler(Material.MUSHROOM_SOUP).setDisplayName("§bSoup").build(), new String[]{"When you right click a soup, you regain", "3.5 hearts."}),
     BLOODDIAMONDS(false, new ItemHandler(Material.REDSTONE).setDisplayName("§bBloodDiamonds").build(), new String[]{"When you mine a diamond, you", " lose half a heart."}),
     HASTEYBOYS(false, new ItemHandler(Material.WOOD_PICKAXE).setDisplayName("§bHasteyBoys").build(), new String[]{"Tools automatically enchant", "with efficiency 3."}),
     DIAMONDLESS(false, new ItemHandler(Material.DIAMOND).setDisplayName("§bDiamondless").build(), new String[]{"You cannot mine diamonds.", "Players drop 1 diamond", "if they die."}),

@@ -5,6 +5,7 @@ import net.saikatsune.aurityuhc.enums.PlayerState;
 import net.saikatsune.aurityuhc.gamestate.GameState;
 import net.saikatsune.aurityuhc.gamestate.states.IngameState;
 import org.bukkit.*;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -70,12 +71,12 @@ public class GameManager {
         }
     }
 
-    public void scatterPlayer(Player player, World world) {
+    public void scatterPlayer(Player player, World world, int radius) {
 
         Random random = new Random();
 
-        int x = random.nextInt(aurityUHC.getConfigManager().getBorderSize() - 1);
-        int z = random.nextInt(aurityUHC.getConfigManager().getBorderSize() - 1);
+        int x = random.nextInt(radius - 1);
+        int z = random.nextInt(radius - 1);
         int y = Bukkit.getWorld(world.getName()).getHighestBlockYAt(x, z);
 
         Location location = new Location(Bukkit.getWorld(world.getName()), x, y ,z);

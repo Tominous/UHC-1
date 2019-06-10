@@ -4,9 +4,11 @@ import net.saikatsune.aurityuhc.AurityUHC;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.Arrays;
@@ -214,6 +216,22 @@ public class InventoryHandler {
         this.fillEmptySlots(inventory);
 
         player.openInventory(inventory);
+    }
+
+    public void handlePracticeInventory(Player player) {
+        PlayerInventory inventory = player.getInventory();
+
+        inventory.setItem(0, new ItemHandler(Material.IRON_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 1).build());
+        inventory.setItem(1, new ItemStack(Material.FISHING_ROD));
+        inventory.setItem(2, new ItemHandler(Material.BOW).addEnchantment(Enchantment.ARROW_INFINITE, 1).build());
+        inventory.setItem(3, new ItemStack(Material.WATER_BUCKET));
+
+        inventory.setHelmet(new ItemHandler(Material.IRON_HELMET).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build());
+        inventory.setChestplate(new ItemHandler(Material.IRON_CHESTPLATE).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build());
+        inventory.setLeggings(new ItemHandler(Material.IRON_LEGGINGS).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build());
+        inventory.setBoots(new ItemHandler(Material.IRON_BOOTS).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build());
+
+        inventory.setItem(8, new ItemStack(Material.ARROW));
     }
 
 }

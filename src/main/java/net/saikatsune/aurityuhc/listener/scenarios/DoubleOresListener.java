@@ -2,6 +2,7 @@ package net.saikatsune.aurityuhc.listener.scenarios;
 
 import net.saikatsune.aurityuhc.enums.Scenarios;
 import org.bukkit.Material;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -66,10 +67,12 @@ public class DoubleOresListener implements Listener {
                     event.setCancelled(true);
                     event.getBlock().setType(Material.AIR);
                     event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.DIAMOND, 2));
+                    event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class).setExperience(6);
                 } else if(Scenarios.TRIPLEORES.isEnabled()) {
                     event.setCancelled(true);
                     event.getBlock().setType(Material.AIR);
                     event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.DIAMOND, 3));
+                    event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class).setExperience(12);
                 }
                 break;
         }

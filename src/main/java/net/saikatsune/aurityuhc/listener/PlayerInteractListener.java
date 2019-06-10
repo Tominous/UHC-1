@@ -32,7 +32,9 @@ public class PlayerInteractListener implements Listener {
         if(aurityUHC.getSpectators().contains(player)) event.setCancelled(true);
 
         if(!(aurityUHC.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
-            event.setCancelled(true);
+            if(!aurityUHC.getArenaPlayers().contains(player.getUniqueId())) {
+                event.setCancelled(true);
+            }
         }
 
         if(aurityUHC.getSpectators().contains(player)) {
@@ -131,7 +133,9 @@ public class PlayerInteractListener implements Listener {
         if(aurityUHC.getSpectators().contains(player)) event.setCancelled(true);
 
         if(!(aurityUHC.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
-            event.setCancelled(true);
+            if(!aurityUHC.getArenaPlayers().contains(player.getUniqueId())) {
+                event.setCancelled(true);
+            }
         }
     }
 

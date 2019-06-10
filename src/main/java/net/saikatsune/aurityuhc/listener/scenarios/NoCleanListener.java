@@ -2,6 +2,7 @@ package net.saikatsune.aurityuhc.listener.scenarios;
 
 import net.saikatsune.aurityuhc.AurityUHC;
 import net.saikatsune.aurityuhc.enums.Scenarios;
+import net.saikatsune.aurityuhc.gamestate.states.IngameState;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,20 +28,22 @@ public class NoCleanListener implements Listener {
         Player death = event.getEntity();
         Player killer = death.getKiller();
 
-        if(Scenarios.NOCLEAN.isEnabled()) {
-            if(killer != null) {
-                noCleanPlayers.add(killer.getUniqueId());
-                killer.sendMessage(prefix + ChatColor.GREEN + "[NoClean] You are now protected to any damage for 20 seconds!");
+        if(aurityUHC.getGameStateManager().getCurrentGameState() instanceof IngameState) {
+            if(Scenarios.NOCLEAN.isEnabled()) {
+                if(killer != null) {
+                    noCleanPlayers.add(killer.getUniqueId());
+                    killer.sendMessage(prefix + ChatColor.GREEN + "[NoClean] You are now protected to any damage for 20 seconds!");
 
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if(noCleanPlayers.contains(killer.getUniqueId())) {
-                            noCleanPlayers.remove(killer.getUniqueId());
-                            killer.sendMessage(prefix + ChatColor.RED + "[NoClean] You are no longer protected to any damage!");
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            if(noCleanPlayers.contains(killer.getUniqueId())) {
+                                noCleanPlayers.remove(killer.getUniqueId());
+                                killer.sendMessage(prefix + ChatColor.RED + "[NoClean] You are no longer protected to any damage!");
+                            }
                         }
-                    }
-                }.runTaskLater(aurityUHC, 20 * 20);
+                    }.runTaskLater(aurityUHC, 20 * 20);
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 name: AurityUHC
 author: Saikatsune
-version: 0.9.5-PRE-RELEASE
+version: 0.9.7-PRE-RELEASE
 main: net.saikatsune.aurityuhc.AurityUHC
 
 commands:
@@ -44,6 +44,10 @@ commands:
     permission: uhc.host
   giveall:
     permission: uhc.host
+  helpopmute:
+    permission: uhc.host
+  helpopunmute:
+    permission: uhc.host
   health:
     aliases: [h]
   teamchat:
@@ -60,3 +64,5 @@ commands:
   config:
   scenarios:
   stats:
+  practice:
+    aliases: [prac, arena, a]

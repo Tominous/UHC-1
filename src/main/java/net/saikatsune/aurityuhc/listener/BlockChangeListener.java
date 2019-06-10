@@ -1,6 +1,10 @@
 package net.saikatsune.aurityuhc.listener;
 
 import me.uhc.worldborder.Events.WorldBorderFillFinishedEvent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.saikatsune.aurityuhc.AurityUHC;
 import net.saikatsune.aurityuhc.gamestate.states.IngameState;
 import org.bukkit.Bukkit;
@@ -37,7 +41,16 @@ public class BlockChangeListener implements Listener {
                     for (Player allPlayers : aurityUHC.getSpectators()) {
                         if(allPlayers.hasPermission("uhc.host")) {
                            if (aurityUHC.getReceiveDiamondAlerts().contains(allPlayers.getUniqueId())) {
-                                allPlayers.sendMessage(prefix + mColor + player.getName() + sColor + " has mined diamonds!");
+
+                               TextComponent textComponent = new TextComponent();
+
+                               textComponent.setText(prefix + mColor + player.getName() + sColor + " has mined diamonds!");
+
+                               textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                       new ComponentBuilder(sColor + "Click to teleport to " + mColor + player.getName() + sColor + "!").create()));
+                               textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + player.getName()));
+
+                               allPlayers.spigot().sendMessage(textComponent);
                            }
                         }
                     }
@@ -45,7 +58,15 @@ public class BlockChangeListener implements Listener {
                     for (Player allPlayers : aurityUHC.getSpectators()) {
                         if(allPlayers.hasPermission("uhc.host")) {
                             if (aurityUHC.getReceiveGoldAlerts().contains(allPlayers.getUniqueId())) {
-                                allPlayers.sendMessage(prefix + mColor + player.getName() + sColor + " has mined gold!");
+                                TextComponent textComponent = new TextComponent();
+
+                                textComponent.setText(prefix + mColor + player.getName() + sColor + " has mined gold!");
+
+                                textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                        new ComponentBuilder(sColor + "Click to teleport to " + mColor + player.getName() + sColor + "!").create()));
+                                textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + player.getName()));
+
+                                allPlayers.spigot().sendMessage(textComponent);
                             }
                         }
                     }

@@ -43,5 +43,4 @@ public class TeamHandler {
         return teamInventory;
     }
 
-
 }

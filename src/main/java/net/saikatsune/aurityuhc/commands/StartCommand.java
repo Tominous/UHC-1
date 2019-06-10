@@ -26,9 +26,13 @@ public class StartCommand implements CommandExecutor {
                 if(aurityUHC.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
                     if (Bukkit.getWorld("uhc_world") != null) {
                         if (Bukkit.getWorld("uhc_nether") != null) {
-                            player.sendMessage(prefix + mColor + "You have started the game!");
-                            aurityUHC.getGameStateManager().setGameState(GameState.SCATTERING);
-                            aurityUHC.getScatterTask().runTask();
+                            if(!aurityUHC.isArenaEnabled()) {
+                                player.sendMessage(prefix + mColor + "You have started the game!");
+                                aurityUHC.getGameStateManager().setGameState(GameState.SCATTERING);
+                                aurityUHC.getScatterTask().runTask();
+                            } else {
+                                player.sendMessage(prefix + ChatColor.RED + "Please disable practice before you start the game!");
+                            }
                         } else {
                             player.sendMessage(prefix + ChatColor.RED + "The UHC nether doesn't exist!");
                         }

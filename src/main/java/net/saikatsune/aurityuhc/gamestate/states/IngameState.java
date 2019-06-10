@@ -15,7 +15,7 @@ public class IngameState extends GameState {
     private String prefix = aurityUHC.getPrefix();
 
     public void start() {
-        aurityUHC.getWorldManager().createBorderLayer("uhc_world", aurityUHC.getConfigManager().getBorderSize());
+        aurityUHC.getWorldManager().createBorderLayer("uhc_world", aurityUHC.getConfigManager().getBorderSize(),4, null);
 
         aurityUHC.getGameManager().playSound();
 

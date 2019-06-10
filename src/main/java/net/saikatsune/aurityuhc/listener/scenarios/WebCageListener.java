@@ -1,6 +1,8 @@
 package net.saikatsune.aurityuhc.listener.scenarios;
 
+import net.saikatsune.aurityuhc.AurityUHC;
 import net.saikatsune.aurityuhc.enums.Scenarios;
+import net.saikatsune.aurityuhc.gamestate.states.IngameState;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,16 +15,20 @@ import java.util.List;
 
 public class WebCageListener implements Listener {
 
+    private AurityUHC aurityUHC = AurityUHC.getInstance();
+
     @EventHandler
     public void handlePlayerDeathEvent(PlayerDeathEvent event) {
         Player player = event.getEntity();
 
-        if(Scenarios.WEBCAGE.isEnabled()) {
-            if(player.getKiller() != null) {
-                List<Location> locations = this.getSphere(player.getLocation(), 5, true);
-                for(Location blocks : locations) {
-                    if(blocks.getBlock().getType() == Material.AIR) {
-                        blocks.getBlock().setType(Material.WEB);
+        if(aurityUHC.getGameStateManager().getCurrentGameState() instanceof IngameState) {
+            if(Scenarios.WEBCAGE.isEnabled()) {
+                if(player.getKiller() != null) {
+                    List<Location> locations = this.getSphere(player.getLocation(), 5, true);
+                    for(Location blocks : locations) {
+                        if(blocks.getBlock().getType() == Material.AIR) {
+                            blocks.getBlock().setType(Material.WEB);
+                        }
                     }
                 }
             }

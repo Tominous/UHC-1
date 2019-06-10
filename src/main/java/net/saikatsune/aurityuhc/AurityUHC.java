@@ -21,6 +21,7 @@ import net.saikatsune.aurityuhc.tasks.TimeTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -71,14 +72,18 @@ public class AurityUHC extends JavaPlugin {
     private ArrayList<UUID> whitelisted;
     private ArrayList<UUID> loggedPlayers;
     private ArrayList<UUID> combatLoggedPlayers;
+    private ArrayList<UUID> arenaPlayers;
 
     private ArrayList<UUID> receivePvpAlerts;
     private ArrayList<UUID> receiveDiamondAlerts;
     private ArrayList<UUID> receiveGoldAlerts;
 
+    private ArrayList<UUID> helpopMuted;
+
     private boolean inGrace;
     private boolean chatMuted;
     private boolean databaseActive;
+    private boolean arenaEnabled;
 
     private ScatterTask scatterTask;
     private TimeTask timeTask;
@@ -97,7 +102,8 @@ public class AurityUHC extends JavaPlugin {
 
         instance = this;
 
-        prefix = getConfig().getString("SETTINGS.PREFIX").replace("&", "§");
+        prefix = getConfig().getString("SETTINGS.PREFIX").replace("&", "§")
+            .replace(">>", "»");
 
         mColor = getConfig().getString("SETTINGS.MAIN-COLOR").replace("&", "§");
         sColor = getConfig().getString("SETTINGS.SECONDARY-COLOR").replace("&", "§");
@@ -134,20 +140,26 @@ public class AurityUHC extends JavaPlugin {
         whitelisted = new ArrayList<>();
         loggedPlayers = new ArrayList<>();
         combatLoggedPlayers = new ArrayList<>();
+        arenaPlayers = new ArrayList<>();
 
         receivePvpAlerts = new ArrayList<>();
         receiveDiamondAlerts = new ArrayList<>();
         receiveGoldAlerts = new ArrayList<>();
+
+        helpopMuted = new ArrayList<>();
 
         scatterTask = new ScatterTask();
         timeTask = new TimeTask();
 
         inGrace = true;
         chatMuted = false;
+        arenaEnabled = false;
 
         databaseActive = getConfig().getBoolean("MYSQL.ENABLED");
 
         limitationsListener = new LimitationsListener();
+
+        worldManager.deleteWorld("uhc_practice");
 
         gameType.put("GameType", GameType.SOLO);
 
@@ -171,8 +183,11 @@ public class AurityUHC extends JavaPlugin {
 
         gameManager.setWhitelisted(true);
 
-        worldManager.createWorld("uhc_world", World.Environment.NORMAL);
-        worldManager.createWorld("uhc_nether", World.Environment.NETHER);
+        worldManager.createWorld("uhc_world", World.Environment.NORMAL, WorldType.NORMAL);
+        worldManager.createWorld("uhc_nether", World.Environment.NETHER, WorldType.NORMAL);
+        worldManager.createWorld("uhc_practice", World.Environment.NORMAL, WorldType.FLAT);
+
+        worldManager.createBorderLayer("uhc_practice", 100, 4, null);
 
         scoreboardManager.updateScoreboard();
     }
@@ -182,6 +197,7 @@ public class AurityUHC extends JavaPlugin {
         this.players.clear();
         this.spectators.clear();
         this.whitelisted.clear();
+        this.helpopMuted.clear();
 
         if(databaseActive) {
             try {
@@ -217,6 +233,9 @@ public class AurityUHC extends JavaPlugin {
         getCommand("killstop").setExecutor(new KillsTopCommand());
         getCommand("starterfood").setExecutor(new StarterFoodCommand());
         getCommand("giveall").setExecutor(new GiveAllCommand());
+        getCommand("helpopmute").setExecutor(new HelpopMuteCommand());
+        getCommand("helpopunmute").setExecutor(new HelpopMuteCommand());
+        getCommand("practice").setExecutor(new PracticeCommand());
 
         getCommand("worldeditor").setExecutor(new WorldEditorCommand());
         getCommand("configeditor").setExecutor(new ConfigEditorCommand());
@@ -282,6 +301,7 @@ public class AurityUHC extends JavaPlugin {
         configManager.setStrength1(false);
         configManager.setStrength2(false);
         configManager.setStarterFood(16);
+
         teamManager.setTeamSize(2);
     }
 
@@ -306,7 +326,7 @@ public class AurityUHC extends JavaPlugin {
 
         config.addDefault("SCOREBOARD.HEADER", "&a&lAurity &7:|: &f&lUHC");
 
-        config.addDefault("SECURITY.LICENSE-KEY", "your license");
+        config.addDefault("SECURITY.LICENSE-KEY", "XXXX-XXXX-XXXX-XXXX");
 
         config.options().copyDefaults(true);
         saveConfig();
@@ -492,5 +512,21 @@ public class AurityUHC extends JavaPlugin {
 
     public boolean isDatabaseActive() {
         return databaseActive;
+    }
+
+    public ArrayList<UUID> getHelpopMuted() {
+        return helpopMuted;
+    }
+
+    public ArrayList<UUID> getArenaPlayers() {
+        return arenaPlayers;
+    }
+
+    public boolean isArenaEnabled() {
+        return arenaEnabled;
+    }
+
+    public void setArenaEnabled(boolean arenaEnabled) {
+        this.arenaEnabled = arenaEnabled;
     }
 }

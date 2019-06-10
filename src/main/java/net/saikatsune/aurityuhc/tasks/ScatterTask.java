@@ -4,9 +4,8 @@ import net.saikatsune.aurityuhc.AurityUHC;
 import net.saikatsune.aurityuhc.enums.Scenarios;
 import net.saikatsune.aurityuhc.gamestate.GameState;
 import net.saikatsune.aurityuhc.handler.TeamHandler;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 import java.util.UUID;
+import java.util.logging.Level;
 
 @SuppressWarnings("deprecation")
 public class ScatterTask {
@@ -42,17 +42,17 @@ public class ScatterTask {
             @Override
             public void run() {
                 int playerNumber = new Random().nextInt(Bukkit.getWorld("world").getPlayers().size());
-                Player random = (Player) Bukkit.getOnlinePlayers().toArray()[playerNumber];
+                Player random = (Player) aurityUHC.getPlayers().toArray()[playerNumber];
 
                 if (Bukkit.getWorld("world").getPlayers().contains(random)) {
-                    aurityUHC.getGameManager().scatterPlayer(random, Bukkit.getWorld("uhc_world"));
+                    aurityUHC.getGameManager().scatterPlayer(random, Bukkit.getWorld("uhc_world"), aurityUHC.getConfigManager().getBorderSize());
 
                     random.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, -5));
-                    random.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 99999));
-                    random.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 99999));
+                    random.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 999999999));
+                    random.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 999999999));
                 }
 
-                if (Bukkit.getWorld("world").getPlayers().size() < 1) {
+                if (Bukkit.getWorld("world").getPlayers().size() == 0) {
                     Bukkit.getScheduler().cancelTask(taskID);
                     Bukkit.broadcastMessage(prefix + ChatColor.GREEN + "Finished scatter of all players!");
 
@@ -74,8 +74,6 @@ public class ScatterTask {
                             }
                         }
                         Bukkit.broadcastMessage(prefix + sColor + "All teams have been teleported to their leaders!");
-                        Bukkit.broadcastMessage(prefix + ChatColor.RED + "You haven't been teleported if your team leader is not in your" +
-                                " team or offline!");
                     }
 
                     for (Player allPlayers : aurityUHC.getPlayers()) {

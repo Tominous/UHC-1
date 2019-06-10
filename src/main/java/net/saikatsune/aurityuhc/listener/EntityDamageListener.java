@@ -1,13 +1,23 @@
 package net.saikatsune.aurityuhc.listener;
 
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.saikatsune.aurityuhc.AurityUHC;
 import net.saikatsune.aurityuhc.enums.PlayerState;
 import net.saikatsune.aurityuhc.gamestate.states.IngameState;
+import net.saikatsune.aurityuhc.gamestate.states.LobbyState;
+import net.saikatsune.aurityuhc.handler.ItemHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class EntityDamageListener implements Listener {
@@ -27,7 +37,9 @@ public class EntityDamageListener implements Listener {
             if(aurityUHC.getSpectators().contains(player)) event.setCancelled(true);
 
             if(!(aurityUHC.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
-                event.setCancelled(true);
+                if(!aurityUHC.getArenaPlayers().contains(player.getUniqueId())) {
+                    event.setCancelled(true);
+                }
             }
         } else {
             if(!(aurityUHC.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
@@ -47,7 +59,16 @@ public class EntityDamageListener implements Listener {
                 if(aurityUHC.getSpectators().contains(attacker)) event.setCancelled(true);
 
                 if(!(aurityUHC.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
-                    event.setCancelled(true);
+                    if(aurityUHC.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
+                        if(!aurityUHC.isArenaEnabled()) {
+                            if(!aurityUHC.getArenaPlayers().contains(player.getUniqueId()) &&
+                                    !aurityUHC.getArenaPlayers().contains(attacker.getUniqueId())) {
+                                event.setCancelled(true);
+                            }
+                        }
+                    } else {
+                        event.setCancelled(true);
+                    }
                 } else {
                     if(aurityUHC.isInGrace()) {
                         event.setCancelled(true);
@@ -58,7 +79,16 @@ public class EntityDamageListener implements Listener {
                             for (Player allPlayers : aurityUHC.getSpectators()) {
                                 if(allPlayers.hasPermission("uhc.host")) {
                                     if(aurityUHC.getReceivePvpAlerts().contains(allPlayers.getUniqueId())) {
-                                        allPlayers.sendMessage(prefix + mColor + attacker.getName() + sColor + " has attacked " + mColor + player.getName() + sColor + "!");
+
+                                        TextComponent textComponent = new TextComponent();
+
+                                        textComponent.setText(prefix + mColor + attacker.getName() + sColor + " has attacked " + mColor + player.getName() + sColor + "!");
+
+                                        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                                new ComponentBuilder(sColor + "Click to teleport to " + mColor + attacker.getName() + sColor + "!").create()));
+                                        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + attacker.getName()));
+
+                                        allPlayers.spigot().sendMessage(textComponent);
                                     }
                                 }
                             }
@@ -109,11 +139,13 @@ public class EntityDamageListener implements Listener {
                 }
             } else {
                 if(aurityUHC.isInGrace()) {
-                    event.setCancelled(true);
+                    if(!aurityUHC.getArenaPlayers().contains(player.getUniqueId())) {
+                        event.setCancelled(true);
+                    }
                 }
             }
         } else {
-            if(event.getDamager() instanceof Player) {
+            if(event.getDamager() instanceof Player || event.getDamager() instanceof Projectile) {
                 Player attacker = (Player) event.getDamager();
 
                 if(aurityUHC.getSpectators().contains(attacker)) event.setCancelled(true);
@@ -125,12 +157,46 @@ public class EntityDamageListener implements Listener {
     }
 
     @EventHandler
+    public void handlePlayerPracticeDeathEvent(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+
+        if(aurityUHC.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
+            if(aurityUHC.getArenaPlayers().contains(player.getUniqueId())) {
+                if(player.getWorld().getName().equalsIgnoreCase("uhc_practice")) {
+                    event.setKeepInventory(true);
+                    event.setDeathMessage("");
+
+                    if(player.getKiller() != null) {
+                        player.getKiller().sendMessage(prefix + ChatColor.GREEN + "You have slain " + player.getName() + "!");
+                        player.sendMessage(prefix + ChatColor.RED + "You have been slain by " + player.getKiller().getName() + "!");
+
+                        player.getKiller().getInventory().addItem(new ItemHandler(Material.GOLDEN_APPLE).
+                                setDisplayName(ChatColor.GOLD + "Golden Head").build());
+                    }
+
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            player.spigot().respawn();
+
+                            aurityUHC.getInventoryHandler().handlePracticeInventory(player);
+                            aurityUHC.getGameManager().scatterPlayer(player, Bukkit.getWorld("uhc_practice"), 100);
+                        }
+                    }.runTaskLater(aurityUHC, 20);
+                }
+            }
+        }
+    }
+
+    @EventHandler
     public void handlePlayerDeathEvent(PlayerDeathEvent event) {
         Player player = event.getEntity();
 
-        aurityUHC.registerPlayerDeath(player);
-
         if(aurityUHC.getGameStateManager().getCurrentGameState() instanceof IngameState) {
+            aurityUHC.registerPlayerDeath(player);
+
+            event.setKeepInventory(false);
+
             if(player.getKiller() != null) {
                 aurityUHC.getPlayerKills().put(player.getKiller().getUniqueId(), aurityUHC.getPlayerKills().get(player.getKiller().getUniqueId()) + 1);
 
@@ -197,6 +263,7 @@ public class EntityDamageListener implements Listener {
         }
     }
 
+
     @EventHandler
     public void handleFoodLevelChangeEvent(FoodLevelChangeEvent event) {
         if(!(aurityUHC.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
@@ -205,7 +272,7 @@ public class EntityDamageListener implements Listener {
     }
 
     @EventHandler
-    public void handleProjectilHitEvent(ProjectileHitEvent event) {
+    public void handleProjectileHitEvent(ProjectileHitEvent event) {
         if(event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
             if(player.getKiller() != null) {

@@ -4,8 +4,12 @@ import net.saikatsune.aurityuhc.AurityUHC;
 import net.saikatsune.aurityuhc.handler.FileHandler;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.function.Consumer;
 
 public class WorldManager {
 
@@ -18,9 +22,9 @@ public class WorldManager {
 
     private FileHandler fileHandler = aurityUHC.getFileHandler();
 
-    public void createWorld(String worldName, World.Environment environment) {
+    public void createWorld(String worldName, World.Environment environment, WorldType worldType) {
         Bukkit.broadcastMessage(prefix + sColor + "Started creating the world " + mColor + worldName + sColor + "...");
-        World world = Bukkit.createWorld(new WorldCreator(worldName).environment(environment).type(WorldType.NORMAL));
+        World world = Bukkit.createWorld(new WorldCreator(worldName).environment(environment).type(worldType));
         world.setDifficulty(Difficulty.EASY);
         world.setTime(0);
         world.setThundering(false);
@@ -47,106 +51,114 @@ public class WorldManager {
         if (aurityUHC.getConfigManager().getBorderSize() == 3500) {
             aurityUHC.getConfigManager().setBorderSize(3000);
             aurityUHC.getWorldManager().shrinkBorder("uhc_world", 3000);
-            aurityUHC.getWorldManager().createBorderLayer("uhc_world", 3000);
+            aurityUHC.getWorldManager().createBorderLayer("uhc_world",3000, 4, null);
 
             aurityUHC.getWorldManager().shrinkBorder("uhc_nether", 3000);
         } else if (aurityUHC.getConfigManager().getBorderSize() == 3000) {
             aurityUHC.getConfigManager().setBorderSize(2500);
             aurityUHC.getWorldManager().shrinkBorder("uhc_world", 2500);
-            aurityUHC.getWorldManager().createBorderLayer("uhc_world", 2500);
+            aurityUHC.getWorldManager().createBorderLayer("uhc_world",2500, 4, null);
 
             aurityUHC.getWorldManager().shrinkBorder("uhc_nether", 2500);
         } else if (aurityUHC.getConfigManager().getBorderSize() == 2500) {
             aurityUHC.getConfigManager().setBorderSize(2000);
             aurityUHC.getWorldManager().shrinkBorder("uhc_world", 2000);
-            aurityUHC.getWorldManager().createBorderLayer("uhc_world", 2000);
+            aurityUHC.getWorldManager().createBorderLayer("uhc_world",2000, 4, null);
 
             aurityUHC.getWorldManager().shrinkBorder("uhc_nether", 2000);
         } else if (aurityUHC.getConfigManager().getBorderSize() == 2000) {
             aurityUHC.getConfigManager().setBorderSize(1500);
             aurityUHC.getWorldManager().shrinkBorder("uhc_world", 1500);
-            aurityUHC.getWorldManager().createBorderLayer("uhc_world", 1500);
+            aurityUHC.getWorldManager().createBorderLayer("uhc_world",1500, 4, null);
 
             aurityUHC.getWorldManager().shrinkBorder("uhc_nether", 1500);
         } else if (aurityUHC.getConfigManager().getBorderSize() == 1500) {
             aurityUHC.getConfigManager().setBorderSize(1000);
             aurityUHC.getWorldManager().shrinkBorder("uhc_world", 1000);
-            aurityUHC.getWorldManager().createBorderLayer("uhc_world", 1000);
+            aurityUHC.getWorldManager().createBorderLayer("uhc_world",1000, 4, null);
 
             aurityUHC.getWorldManager().shrinkBorder("uhc_nether", 1000);
         } else if (aurityUHC.getConfigManager().getBorderSize() == 1000) {
             aurityUHC.getConfigManager().setBorderSize(500);
             aurityUHC.getWorldManager().shrinkBorder("uhc_world", 500);
-            aurityUHC.getWorldManager().createBorderLayer("uhc_world", 500);
+            aurityUHC.getWorldManager().createBorderLayer("uhc_world",500, 4, null);
 
             aurityUHC.getWorldManager().shrinkBorder("uhc_nether", 500);
         } else if (aurityUHC.getConfigManager().getBorderSize() == 500) {
             aurityUHC.getConfigManager().setBorderSize(100);
             aurityUHC.getWorldManager().shrinkBorder("uhc_world", 100);
-            aurityUHC.getWorldManager().createBorderLayer("uhc_world", 100);
+            aurityUHC.getWorldManager().createBorderLayer("uhc_world",100, 4, null);
+
+            for (Player allPlayers : aurityUHC.getPlayers()) {
+                if(allPlayers.getWorld().getName().equalsIgnoreCase("uhc_nether")) {
+                    aurityUHC.getGameManager().scatterPlayer(allPlayers, Bukkit.getWorld("uhc_world"), 100);
+                }
+            }
+
+            aurityUHC.getConfigManager().setNether(false);
 
             aurityUHC.getWorldManager().shrinkBorder("uhc_nether", 100);
         } else if(aurityUHC.getConfigManager().getBorderSize() == 100) {
             aurityUHC.getConfigManager().setBorderSize(50);
             aurityUHC.getWorldManager().shrinkBorder("uhc_world", 50);
-            aurityUHC.getWorldManager().createBorderLayer("uhc_world", 50);
+            aurityUHC.getWorldManager().createBorderLayer("uhc_world",50, 4, null);
 
             aurityUHC.getWorldManager().shrinkBorder("uhc_nether", 50);
         } else if(aurityUHC.getConfigManager().getBorderSize() == 50) {
             aurityUHC.getConfigManager().setBorderSize(25);
             aurityUHC.getWorldManager().shrinkBorder("uhc_world", 25);
-            aurityUHC.getWorldManager().createBorderLayer("uhc_world", 25);
+            aurityUHC.getWorldManager().createBorderLayer("uhc_world",25, 4, null);
 
             aurityUHC.getWorldManager().shrinkBorder("uhc_nether", 25);
         }
         aurityUHC.getGameManager().playSound();
-        Bukkit.broadcastMessage(prefix + sColor + "The border has shrunk to " + mColor + aurityUHC.getConfigManager().getBorderSize() + sColor + "!");
+        Bukkit.broadcastMessage(prefix + sColor + "The border has shrunken to " + mColor + aurityUHC.getConfigManager().getBorderSize() + "x" +
+                aurityUHC.getConfigManager().getBorderSize() + sColor + " blocks!");
         if(aurityUHC.getConfigManager().getBorderSize() > 25) {
-            Bukkit.broadcastMessage(prefix + sColor + "The next shrink is in 5 minutes!");
+            Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + aurityUHC.getTimeTask().getNextBorder() + "x" +
+                    aurityUHC.getTimeTask().getNextBorder() + " blocks in 5 minutes!");
         }
     }
 
-    public void createBorderLayer(String worldName, int worldRadius) {
-        World world = Bukkit.getWorld(worldName);
+    public void createBorderLayer(String borderWorld, int radius, int amount, Consumer<String> done) {
+        World world = Bukkit.getWorld(borderWorld);
+        if (world == null) return;
+        LinkedList<Location> locations = new LinkedList<>();
 
-        Material mat = Material.BEDROCK;
-        for (int i = 0; i < 1; i++) {
-            for (int x = -worldRadius; x < worldRadius; x++) {
-                int z = worldRadius;
-                int y = world.getHighestBlockYAt(x, z);
-
-                Block block = world.getBlockAt(x, y, z);
-
-                block.setType(mat);
+        for (int i = 0; i < amount; i++) {
+            for (int z = -radius; z <= radius; z++) {
+                Location location = new Location(world, radius, world.getHighestBlockYAt(radius, z) + i, z);
+                locations.add(location);
             }
-
-            for (int z = worldRadius; z > -worldRadius; z--) {
-                int x = worldRadius;
-                int y = world.getHighestBlockYAt(x, z);
-
-                Block block = world.getBlockAt(x, y, z);
-
-                block.setType(mat);
+            for (int z = -radius; z <= radius; z++) {
+                Location location = new Location(world, -radius, world.getHighestBlockYAt(-radius, z) + i, z);
+                locations.add(location);
             }
-
-            for (int x = worldRadius; x > -worldRadius; x--) {
-                int z = -worldRadius;
-                int y = world.getHighestBlockYAt(x, z);
-
-                Block block = world.getBlockAt(x, y, z);
-
-                block.setType(mat);
+            for (int x = -radius; x <= radius; x++) {
+                Location location = new Location(world, x, world.getHighestBlockYAt(x, radius) + i, radius);
+                locations.add(location);
             }
-
-            for (int z = -worldRadius; z < worldRadius; z++) {
-                int x = -worldRadius;
-                int y = world.getHighestBlockYAt(x, z);
-
-                Block block = world.getBlockAt(x, y, z);
-
-                block.setType(mat);
+            for (int x = -radius; x <= radius; x++) {
+                Location location = new Location(world, x, world.getHighestBlockYAt(x, -radius) + i, -radius);
+                locations.add(location);
             }
         }
+
+        new BukkitRunnable() {
+
+            private int max = 50;
+            @Override
+            public void run() {
+                for (int i = 0; i < max; i++) {
+                    if (locations.isEmpty()) {
+                        if (done != null) done.accept("done");
+                        this.cancel();
+                        break;
+                    }
+                    locations.remove().getBlock().setType(Material.BEDROCK);
+                }
+            }
+        }.runTaskTimer(aurityUHC, 0, 1);
     }
 
     private void unloadWorld(World worldName) {

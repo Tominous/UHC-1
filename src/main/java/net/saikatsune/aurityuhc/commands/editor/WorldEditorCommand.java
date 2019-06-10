@@ -1,10 +1,7 @@
 package net.saikatsune.aurityuhc.commands.editor;
 
 import net.saikatsune.aurityuhc.AurityUHC;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,7 +41,7 @@ public class WorldEditorCommand implements CommandExecutor, Listener {
                             event.setCancelled(true);
                             player.closeInventory();
                             if(Bukkit.getWorld("uhc_world") == null) {
-                                aurityUHC.getWorldManager().createWorld("uhc_world", World.Environment.NORMAL);
+                                aurityUHC.getWorldManager().createWorld("uhc_world", World.Environment.NORMAL, WorldType.NORMAL);
                             } else {
                                 player.sendMessage(prefix + ChatColor.RED + "The UHC world does already exist!");
                             }
@@ -74,7 +71,7 @@ public class WorldEditorCommand implements CommandExecutor, Listener {
                             event.setCancelled(true);
                             player.closeInventory();
                             if(Bukkit.getWorld("uhc_nether") == null) {
-                                aurityUHC.getWorldManager().createWorld("uhc_nether", World.Environment.NETHER);
+                                aurityUHC.getWorldManager().createWorld("uhc_nether", World.Environment.NETHER, WorldType.NORMAL);
                             } else {
                                 player.sendMessage(prefix + ChatColor.RED + "The UHC nether does already exist!");
                             }

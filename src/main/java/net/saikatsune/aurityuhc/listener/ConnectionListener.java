@@ -107,7 +107,7 @@ public class ConnectionListener implements Listener {
         if(aurityUHC.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
             if(aurityUHC.getGameManager().isWhitelisted()) {
                 if(!aurityUHC.getWhitelisted().contains(player.getUniqueId())) {
-                    if(!player.hasPermission("uhc.host")) {
+                    if(!player.hasPermission("uhc.host") || !player.hasPermission("uhc.donator")) {
                         event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.RED + "The game is currently whitelisted!");
                     }
                 }

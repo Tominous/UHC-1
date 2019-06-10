@@ -29,28 +29,31 @@ public class HelpopCommand implements CommandExecutor {
             Player player = (Player) sender;
             if(args.length != 0) {
                 if(!helpopCooldown.contains(player.getUniqueId())) {
+                    if(!aurityUHC.getHelpopMuted().contains(player.getUniqueId())) {
+                        StringBuilder stringBuilder = new StringBuilder();
 
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    for (String strings : args) {
-                        stringBuilder.append(strings).append(" ");
-                    }
-
-                    for (Player allPlayers : Bukkit.getOnlinePlayers()) {
-                        if(allPlayers.hasPermission("uhc.host")) {
-                            allPlayers.sendMessage(prefix + ChatColor.DARK_PURPLE + "Request by " + player.getName() + ": " + ChatColor.AQUA + stringBuilder);
+                        for (String strings : args) {
+                            stringBuilder.append(strings).append(" ");
                         }
-                    }
-                    player.sendMessage(prefix + mColor + "Your request has been sent!");
-                    helpopCooldown.add(player.getUniqueId());
 
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            helpopCooldown.remove(player.getUniqueId());
-                            player.sendMessage(prefix + sColor + "You can now send help requests again!");
+                        for (Player allPlayers : Bukkit.getOnlinePlayers()) {
+                            if(allPlayers.hasPermission("uhc.host")) {
+                                allPlayers.sendMessage(prefix + ChatColor.DARK_PURPLE + "Request by " + player.getName() + ": " + ChatColor.AQUA + stringBuilder);
+                            }
                         }
-                    }.runTaskLater(aurityUHC, 10 * 20);
+                        player.sendMessage(prefix + mColor + "Your request has been sent!");
+                        helpopCooldown.add(player.getUniqueId());
+
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                helpopCooldown.remove(player.getUniqueId());
+                                player.sendMessage(prefix + sColor + "You can now send help requests again!");
+                            }
+                        }.runTaskLater(aurityUHC, 10 * 20);
+                    } else {
+                        player.sendMessage(prefix + ChatColor.RED + "You are helpop-muted for this game!");
+                    }
                 } else {
                     player.sendMessage(prefix + ChatColor.RED + "You have to wait 10 seconds to send a help request again!");
                 }

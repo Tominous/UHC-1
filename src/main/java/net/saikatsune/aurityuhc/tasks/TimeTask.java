@@ -22,6 +22,29 @@ public class TimeTask {
 
     private int borderMinutes;
 
+    public int getNextBorder() {
+        if(aurityUHC.getConfigManager().getBorderSize() == 3500) {
+            return 3000;
+        } else if(aurityUHC.getConfigManager().getBorderSize() == 3000) {
+            return 2500;
+        } else if(aurityUHC.getConfigManager().getBorderSize() == 2500) {
+            return 2000;
+        } else if(aurityUHC.getConfigManager().getBorderSize() == 2000) {
+            return 1500;
+        } else if(aurityUHC.getConfigManager().getBorderSize() == 1500) {
+            return 1000;
+        } else if(aurityUHC.getConfigManager().getBorderSize() == 1000) {
+            return 500;
+        } else if(aurityUHC.getConfigManager().getBorderSize() == 500) {
+            return 100;
+        } else if(aurityUHC.getConfigManager().getBorderSize() == 100) {
+            return 50;
+        } else if(aurityUHC.getConfigManager().getBorderSize() == 50) {
+            return 25;
+        }
+        return 0;
+    }
+
     public void runTask() {
         taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(aurityUHC, new BukkitRunnable() {
             @Override
@@ -74,51 +97,63 @@ public class TimeTask {
                         switch (uptimeSeconds) {
                             case 30:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 30 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 30 seconds!");
                                 break;
                             case 40:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 20 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 20 seconds!");
                                 break;
                             case 50:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 10 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 10 seconds!");
                                 break;
                             case 51:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 9 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 9 seconds!");
                                 break;
                             case 52:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 8 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 8 seconds!");
                                 break;
                             case 53:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 7 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 7 seconds!");
                                 break;
                             case 54:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 6 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 6 seconds!");
                                 break;
                             case 55:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 5 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 5 seconds!");
                                 break;
                             case 56:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 4 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 4 seconds!");
                                 break;
                             case 57:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 3 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 3 seconds!");
                                 break;
                             case 58:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 2 seconds!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 2 seconds!");
                                 break;
                             case 59:
                                 aurityUHC.getGameManager().playSound();
-                                Bukkit.broadcastMessage(prefix + sColor + "The border shrinks in 1 second!");
+                                Bukkit.broadcastMessage(prefix + sColor + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
+                                        " blocks in 1 second!");
                                 break;
                         }
                     }
@@ -126,10 +161,6 @@ public class TimeTask {
 
             }
         }, 0, 20);
-    }
-
-    public int getUptimeMinutes() {
-        return uptimeMinutes;
     }
 
     public void cancelTask() {

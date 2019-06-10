@@ -33,7 +33,7 @@ public class ScatterCommand implements CommandExecutor {
                         if(aurityUHC.getSpectators().contains(target)) {
                             aurityUHC.getGameManager().resetPlayer(target);
                             aurityUHC.getGameManager().setPlayerState(target, PlayerState.PLAYER);
-                            aurityUHC.getGameManager().scatterPlayer(target, Bukkit.getWorld("uhc_world"));
+                            aurityUHC.getGameManager().scatterPlayer(target, Bukkit.getWorld("uhc_world"), aurityUHC.getConfigManager().getBorderSize());
 
                             target.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, aurityUHC.getConfigManager().getStarterFood()));
 

@@ -222,8 +222,9 @@ public class TeamCommand implements CommandExecutor {
                                     TeamHandler teamHandler = aurityUHC.getTeamManager().getTeams().get(aurityUHC.getTeamNumber().get(target.getUniqueId()));
 
                                     player.sendMessage("§8§m--------------------------");
+                                    player.sendMessage(mColor + "Members of Team #" + teamHandler.getTeamNumber() + ":");
 
-                                    player.sendMessage(mColor + "Members of Team #" + teamHandler.getTeamNumber());
+                                    player.sendMessage("");
 
                                     for (UUID allUUID : teamHandler.getTeamMembers()) {
                                         OfflinePlayer allMembers = Bukkit.getOfflinePlayer(allUUID);

@@ -50,7 +50,8 @@ public class ScoreboardManager {
         Objective obj = scoreboard.registerNewObjective("practice", "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        obj.setDisplayName(aurityUHC.getConfig().getString("SCOREBOARD.HEADER").replace("&", "§"));
+        obj.setDisplayName(aurityUHC.getConfig().getString("SCOREBOARD.HEADER").replace("&", "§")
+                .replace(">>", "»"));
 
         if(aurityUHC.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
             Team newLine = scoreboard.registerNewTeam(ChatColor.GREEN.toString());
@@ -113,14 +114,14 @@ public class ScoreboardManager {
             obj.getScore(sColor + "Remaining: ").setScore(4);
 
             Team kills = scoreboard.registerNewTeam(ChatColor.GOLD.toString());
-            kills.addEntry(sColor + "Your Kills: ");
+            kills.addEntry(sColor + "Kills: ");
             kills.setSuffix(mColor + aurityUHC.getPlayerKills().get(player.getUniqueId()));
-            obj.getScore(sColor + "Your Kills: ").setScore(3);
+            obj.getScore(sColor + "Kills: ").setScore(3);
 
             Team border = scoreboard.registerNewTeam(ChatColor.STRIKETHROUGH.toString());
-            border.addEntry(sColor + "Border Size: ");
+            border.addEntry(sColor + "Border: ");
             border.setSuffix(mColor + aurityUHC.getConfigManager().getBorderSize());
-            obj.getScore(sColor + "Border Size: ").setScore(2);
+            obj.getScore(sColor + "Border: ").setScore(2);
 
             Team footer = scoreboard.registerNewTeam(ChatColor.DARK_AQUA.toString());
             footer.addEntry("§7§m--------");

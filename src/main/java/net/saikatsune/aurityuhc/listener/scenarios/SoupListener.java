@@ -15,8 +15,8 @@ public class SoupListener implements Listener {
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 if (event.getItem() != null && event.getItem().getType() == Material.MUSHROOM_SOUP) {
                     if(event.getPlayer().getHealth() < event.getPlayer().getMaxHealth()) {
-                        if (event.getPlayer().getHealth() <= 16) {
-                            event.getPlayer().setHealth(event.getPlayer().getHealth() + 4);
+                        if (event.getPlayer().getHealth() <= 13) {
+                            event.getPlayer().setHealth(event.getPlayer().getHealth() + 7);
                             event.getPlayer().getItemInHand().setType(Material.BOWL);
                             event.getPlayer().getItemInHand().setItemMeta(null);
                         } else {
