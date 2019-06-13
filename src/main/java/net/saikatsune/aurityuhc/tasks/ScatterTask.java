@@ -13,6 +13,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -36,20 +38,32 @@ public class ScatterTask {
             Bukkit.broadcastMessage("");
         }
 
+        for (Player allPlayers : aurityUHC.getPlayers()) {
+            Random randomLocation = new Random();
+
+            int x = randomLocation.nextInt(aurityUHC.getConfigManager().getBorderSize() - 1);
+            int z = randomLocation.nextInt(aurityUHC.getConfigManager().getBorderSize() - 1);
+            int y = Bukkit.getWorld("uhc_world").getHighestBlockYAt(x, z);
+
+            Location location = new Location(Bukkit.getWorld("uhc_world"), x, y ,z);
+
+            aurityUHC.getGameManager().setScatterLocation(allPlayers, location);
+        }
+
         Bukkit.broadcastMessage(prefix + sColor + "Starting scatter of all players!");
 
         taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(aurityUHC, new BukkitRunnable() {
             @Override
             public void run() {
                 int playerNumber = new Random().nextInt(Bukkit.getWorld("world").getPlayers().size());
-                Player random = (Player) aurityUHC.getPlayers().toArray()[playerNumber];
+                Player random = (Player) Bukkit.getOnlinePlayers().toArray()[playerNumber];
 
                 if (Bukkit.getWorld("world").getPlayers().contains(random)) {
-                    aurityUHC.getGameManager().scatterPlayer(random, Bukkit.getWorld("uhc_world"), aurityUHC.getConfigManager().getBorderSize());
 
                     random.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, -5));
-                    random.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 999999999));
-                    random.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 999999999));
+                    random.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 127));
+
+                    random.teleport(aurityUHC.getScatterLocation().get(random));
                 }
 
                 if (Bukkit.getWorld("world").getPlayers().size() == 0) {
@@ -73,6 +87,7 @@ public class ScatterTask {
                                 }
                             }
                         }
+
                         Bukkit.broadcastMessage(prefix + sColor + "All teams have been teleported to their leaders!");
                     }
 
@@ -125,7 +140,7 @@ public class ScatterTask {
                     }.runTaskLater(aurityUHC, 10 * 20);
                 }
             }
-        }, 0, 10);
+        }, 0, 20);
     }
 
     public void cancelTask() {

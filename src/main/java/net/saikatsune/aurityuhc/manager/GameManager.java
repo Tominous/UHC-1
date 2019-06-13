@@ -71,6 +71,10 @@ public class GameManager {
         }
     }
 
+    public void setScatterLocation(Player player, Location location) {
+        aurityUHC.getScatterLocation().put(player, location);
+    }
+
     public void scatterPlayer(Player player, World world, int radius) {
 
         Random random = new Random();

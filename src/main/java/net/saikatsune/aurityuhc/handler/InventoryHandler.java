@@ -224,7 +224,6 @@ public class InventoryHandler {
         inventory.setItem(0, new ItemHandler(Material.IRON_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 1).build());
         inventory.setItem(1, new ItemStack(Material.FISHING_ROD));
         inventory.setItem(2, new ItemHandler(Material.BOW).addEnchantment(Enchantment.ARROW_INFINITE, 1).build());
-        inventory.setItem(3, new ItemStack(Material.WATER_BUCKET));
 
         inventory.setHelmet(new ItemHandler(Material.IRON_HELMET).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build());
         inventory.setChestplate(new ItemHandler(Material.IRON_CHESTPLATE).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build());

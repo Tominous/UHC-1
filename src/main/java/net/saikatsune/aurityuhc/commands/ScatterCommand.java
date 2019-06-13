@@ -6,6 +6,7 @@ import net.saikatsune.aurityuhc.enums.Scenarios;
 import net.saikatsune.aurityuhc.gamestate.states.IngameState;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,6 +14,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Random;
 
 public class ScatterCommand implements CommandExecutor {
 
@@ -33,7 +36,18 @@ public class ScatterCommand implements CommandExecutor {
                         if(aurityUHC.getSpectators().contains(target)) {
                             aurityUHC.getGameManager().resetPlayer(target);
                             aurityUHC.getGameManager().setPlayerState(target, PlayerState.PLAYER);
-                            aurityUHC.getGameManager().scatterPlayer(target, Bukkit.getWorld("uhc_world"), aurityUHC.getConfigManager().getBorderSize());
+
+                            Random randomLocation = new Random();
+
+                            int x = randomLocation.nextInt(aurityUHC.getConfigManager().getBorderSize() - 1);
+                            int z = randomLocation.nextInt(aurityUHC.getConfigManager().getBorderSize() - 1);
+                            int y = Bukkit.getWorld("uhc_world").getHighestBlockYAt(x, z);
+
+                            Location location = new Location(Bukkit.getWorld("uhc_world"), x, y ,z);
+
+                            aurityUHC.getGameManager().setScatterLocation(target, location);
+
+                            target.teleport(aurityUHC.getScatterLocation().get(target));
 
                             target.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, aurityUHC.getConfigManager().getStarterFood()));
 

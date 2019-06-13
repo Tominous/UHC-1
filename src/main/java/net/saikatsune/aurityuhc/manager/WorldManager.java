@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.function.Consumer;
 
 public class WorldManager {
@@ -89,9 +90,22 @@ public class WorldManager {
             aurityUHC.getWorldManager().shrinkBorder("uhc_world", 100);
             aurityUHC.getWorldManager().createBorderLayer("uhc_world",100, 4, null);
 
-            for (Player allPlayers : aurityUHC.getPlayers()) {
-                if(allPlayers.getWorld().getName().equalsIgnoreCase("uhc_nether")) {
-                    aurityUHC.getGameManager().scatterPlayer(allPlayers, Bukkit.getWorld("uhc_world"), 100);
+            if(aurityUHC.getConfigManager().isNether()) {
+                for (Player allPlayers : aurityUHC.getPlayers()) {
+                    if(allPlayers.getWorld().getName().equalsIgnoreCase("uhc_nether")) {
+
+                        Random randomLocation = new Random();
+
+                        int x = randomLocation.nextInt(aurityUHC.getConfigManager().getBorderSize() - 1);
+                        int z = randomLocation.nextInt(aurityUHC.getConfigManager().getBorderSize() - 1);
+                        int y = Bukkit.getWorld("uhc_world").getHighestBlockYAt(x, z);
+
+                        Location location = new Location(Bukkit.getWorld("uhc_world"), x, y ,z);
+
+                        aurityUHC.getGameManager().setScatterLocation(allPlayers, location);
+                        
+                        allPlayers.teleport(aurityUHC.getScatterLocation().get(allPlayers));
+                    }
                 }
             }
 

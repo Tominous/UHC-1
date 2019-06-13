@@ -60,6 +60,8 @@ public class AurityUHC extends JavaPlugin {
     private HashMap<Player, Player> teamInvitation;
     private HashMap<UUID, Integer> playerKills;
 
+    private HashMap<Player, Location> scatterLocation;
+
     private HashMap<UUID, Location> deathLocation;
     private HashMap<UUID, ItemStack[]> deathInventory;
     private HashMap<UUID, ItemStack[]> deathArmor;
@@ -127,6 +129,8 @@ public class AurityUHC extends JavaPlugin {
         teamNumber = new HashMap<>();
         teamInvitation = new HashMap<>();
         playerKills = new HashMap<>();
+
+        scatterLocation = new HashMap<>();
 
         deathLocation = new HashMap<>();
         deathTeamNumber = new HashMap<>();
@@ -528,5 +532,9 @@ public class AurityUHC extends JavaPlugin {
 
     public void setArenaEnabled(boolean arenaEnabled) {
         this.arenaEnabled = arenaEnabled;
+    }
+
+    public HashMap<Player, Location> getScatterLocation() {
+        return scatterLocation;
     }
 }
