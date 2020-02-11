@@ -1,0 +1,39 @@
+#Placeholders:
+#
+#Players: %players%
+#Game Type: %gameType%
+#Kills: %kills%
+#Scattering: %scattering%
+#Scattered: %scattered%
+#Game Time: %gameTime%
+#Border: %borderSize%
+
+
+SCOREBOARDS:
+  TITLE: '&f&lGame >> UHC'
+  LOBBY:
+    LINES:
+      - '&7&m------------------'
+      - '&fOnline: &a%players%'
+      - '&fType: &a%gameType%'
+      - ''
+      - '&ayour-server-ip'
+      - '&7&m------------------'
+  SCATTERING:
+    LINES:
+      - '&7&m------------------'
+      - '&fScattering: &a%scattering%'
+      - '&fScattered: &a%scattered%'
+      - ''
+      - '&ayour-server-ip'
+      - '&7&m------------------'
+  INGAME:
+    LINES:
+      - '&7&m------------------'
+      - '&fGame Time: &a%gameTime%'
+      - '&fRemaining: &a%players%'
+      - '&fKills: &a%kills%'
+      - '&fBorder: &a%borderSize%'
+      - ''
+      - '&ayour-server-ip'
+      - '&7&m------------------'

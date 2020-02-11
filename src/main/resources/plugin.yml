@@ -1,7 +1,7 @@
-name: AurityUHC
+name: UHC
 author: Saikatsune
-version: 0.9.7-PRE-RELEASE
-main: net.saikatsune.aurityuhc.AurityUHC
+version: 0.9.9-PRE-RELEASE
+main: net.saikatsune.uhc.Game
 
 commands:
   worldeditor:
