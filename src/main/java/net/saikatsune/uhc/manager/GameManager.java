@@ -221,11 +221,11 @@ public class GameManager {
     }
 
     public void executeFinalHeal() {
-        for (UUID players : game.getPlayers()) {
-            Player allPlayers = Bukkit.getPlayer(players);
-
-            allPlayers.setHealth(20);
-            allPlayers.setFoodLevel(20);
+        for (Player allPlayers : Bukkit.getOnlinePlayers()) {
+            if(game.getPlayers().contains(allPlayers.getUniqueId())) {
+                allPlayers.setHealth(20);
+                allPlayers.setFoodLevel(20);
+            }
         }
         this.playSound();
         Bukkit.broadcastMessage(prefix + mColor + "All players have been healed!");
