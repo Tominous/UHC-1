@@ -65,13 +65,7 @@ public class CutCleanListener implements Listener {
                             game.getLimitationsListener().getIronMined().put(player.getUniqueId(), game.getLimitationsListener().getIronMined().get(player.getUniqueId()) + 1);
                         }
                     }
-                    if((!Scenarios.DOUBLEXP.isEnabled()) && !Scenarios.TRIPLEXP.isEnabled()) {
-                        event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class).setExperience(2);
-                    } else if(Scenarios.DOUBLEXP.isEnabled()) {
-                        event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class).setExperience(4);
-                    } else {
-                        event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class).setExperience(6);
-                    }
+                    event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class).setExperience(2);
                     break;
                 case GOLD_ORE:
                     if ((player.getItemInHand().getType() != Material.DIAMOND_PICKAXE) && (player.getItemInHand().getType() != Material.IRON_PICKAXE)) {
@@ -110,13 +104,7 @@ public class CutCleanListener implements Listener {
                             game.getLimitationsListener().getGoldMined().put(player.getUniqueId(), game.getLimitationsListener().getGoldMined().get(player.getUniqueId()) + 1);
                         }
                     }
-                    if((!Scenarios.DOUBLEXP.isEnabled()) && !Scenarios.TRIPLEXP.isEnabled()) {
-                        event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class).setExperience(4);
-                    } else if(Scenarios.DOUBLEXP.isEnabled()) {
-                        event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class).setExperience(8);
-                    } else {
-                        event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class).setExperience(12);
-                    }
+                    event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class).setExperience(4);
                     break;
             }
         }

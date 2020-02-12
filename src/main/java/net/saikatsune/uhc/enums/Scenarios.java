@@ -29,8 +29,6 @@ public enum Scenarios {
     FLOWERPOWER(false, new ItemHandler(Material.YELLOW_FLOWER).setDisplayName("§bFlowerPower").build(), new String[]{"You gain items by", "destroying flowers."}),
     GONEFISHING(false, new ItemHandler(Material.RAW_FISH).setDisplayName("§bGoneFishing").build(), new String[]{"You get an Unbreaking 250 and ", "Luck of the Sea 250 fishing rod along with 20 anvils."}),
     INFINITEENCHANT(false, new ItemHandler(Material.ENCHANTMENT_TABLE).setDisplayName("§bInfiniteEnchant").build(), new String[]{"You can infinitely enchant, no limitations."}),
-    DOUBLEXP(false, new ItemHandler(Material.EXP_BOTTLE).setDisplayName("§bDoubleXP").build(), new String[]{"Experience drops are doubled."}),
-    TRIPLEXP(false, new ItemHandler(Material.EXP_BOTTLE).setDisplayName("§bTripleXP").build(), new String[]{"Experience drops are tripled."}),
     DOUBLEORES(false, new ItemHandler(Material.ICE).setDisplayName("§bDoubleOres").build(), new String[]{"Ore drops are doubled."}),
     TRIPLEORES(false, new ItemHandler(Material.PACKED_ICE).setDisplayName("§bTripleOres").build(), new String[]{"Ore drops are tripled."}),
     LONGSHOTS(false, new ItemHandler(Material.ARROW).setDisplayName("§bLongShots").build(), new String[]{"If you get a shot from more than 50 blocks, ", "you get healed 1 heart, and do 1.5x the damage."}),

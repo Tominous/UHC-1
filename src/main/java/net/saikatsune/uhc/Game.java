@@ -344,7 +344,7 @@ public class Game extends JavaPlugin {
         pluginManager.registerEvents(new LimitationsListener(), this);
         pluginManager.registerEvents(new BarebonesListener(), this);
         pluginManager.registerEvents(new FlowerPowerListener(), this);
-        pluginManager.registerEvents(new DoubleXPListener(), this);
+
         pluginManager.registerEvents(new WebCageListener(), this);
         pluginManager.registerEvents(new NoCleanListener(), this);
         pluginManager.registerEvents(new DoubleOresListener(), this);

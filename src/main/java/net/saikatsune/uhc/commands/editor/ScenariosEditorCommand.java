@@ -220,24 +220,6 @@ public class ScenariosEditorCommand implements CommandExecutor, Listener {
                                 Scenarios.INFINITEENCHANT.setEnabled(true);
                             }
                         }
-                    } else if(event.getCurrentItem().getType() == Scenarios.DOUBLEXP.getScenarioItem().getType()) {
-                        if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§bDoubleXP")) {
-                            event.setCancelled(true);
-
-                            if (Scenarios.DOUBLEXP.isEnabled()) {
-                                Scenarios.DOUBLEXP.setEnabled(false);
-                            } else {
-                                Scenarios.DOUBLEXP.setEnabled(true);
-                            }
-                        } else if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§bTripleXP")) {
-                            event.setCancelled(true);
-
-                            if (Scenarios.TRIPLEXP.isEnabled()) {
-                                Scenarios.TRIPLEXP.setEnabled(false);
-                            } else {
-                                Scenarios.TRIPLEXP.setEnabled(true);
-                            }
-                        }
                     } else if(event.getCurrentItem().getType() == Scenarios.WEBCAGE.getScenarioItem().getType()) {
                         if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§bWebCage")) {
                             event.setCancelled(true);
