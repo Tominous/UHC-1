@@ -10,6 +10,8 @@ import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.*;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import spg.lgdev.protocol.viaversion.api.boss.BossBar;
 
@@ -98,6 +100,8 @@ public class GameManager {
     public void spawnCombatVillager(Player player) {
         Villager villager = (Villager) player.getWorld().spawnEntity(player.getLocation(), EntityType.VILLAGER);
         villager.setCustomName(ChatColor.RED + "[CombatLogger] " + player.getName());
+
+        villager.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 127));
 
         villager.setRemoveWhenFarAway(false);
 

@@ -45,8 +45,8 @@ public class UHCBoardProvider implements BoardProvider {
                         replace("%gameTime%", game.getTimeTask().getFormattedTime()).
                         replace("%borderSize%", String.valueOf(game.getConfigManager().getBorderSize())).
                         replace("%kills%", String.valueOf(game.getPlayerKills().get(player.getUniqueId())).
-                        replace("&", "§"));
-                lines.add(string.replace("&", "§"));
+                        replace("%spectators%", "" + game.getSpectators().size()));
+                lines.add(string.replace("&", "§").replace("%spectators%", String.valueOf(game.getSpectators().size())));
             }
         } else if(game.getGameStateManager().getCurrentGameState() instanceof ScatteringState) {
             lines.clear();
@@ -58,8 +58,8 @@ public class UHCBoardProvider implements BoardProvider {
                         replace("%gameTime%", game.getTimeTask().getFormattedTime()).
                         replace("%borderSize%", String.valueOf(game.getConfigManager().getBorderSize())).
                         replace("%kills%", String.valueOf(game.getPlayerKills().get(player.getUniqueId())).
-                        replace("&", "§"));
-                lines.add(string.replace("&", "§"));
+                        replace("%spectators%", "" + game.getSpectators().size()));
+                lines.add(string.replace("&", "§").replace("%spectators%", String.valueOf(game.getSpectators().size())));
             }
         } else {
             lines.clear();
@@ -71,8 +71,8 @@ public class UHCBoardProvider implements BoardProvider {
                         replace("%gameTime%", game.getTimeTask().getFormattedTime()).
                         replace("%borderSize%", String.valueOf(game.getConfigManager().getBorderSize())).
                         replace("%kills%", String.valueOf(game.getPlayerKills().get(player.getUniqueId())).
-                        replace("&", "§"));
-                lines.add(string.replace("&", "§"));
+                        replace("%spectators%", "" + game.getSpectators().size()));
+                lines.add(string.replace("&", "§").replace("%spectators%", String.valueOf(game.getSpectators().size())));
             }
         }
 

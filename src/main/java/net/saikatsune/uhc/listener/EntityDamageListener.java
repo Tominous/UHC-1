@@ -54,7 +54,7 @@ public class EntityDamageListener implements Listener {
                 if(event.getEntity() instanceof Villager) {
                     Villager villager = (Villager) event.getEntity();
 
-                    if(villager.getName().contains("[CombatLogger] ")) {
+                    if(villager.getCustomName().contains("[CombatLogger] ")) {
                         if(game.isInGrace()) {
                             event.setCancelled(true);
                         }
@@ -70,12 +70,12 @@ public class EntityDamageListener implements Listener {
             if(event.getEntity() instanceof Villager) {
                 Villager villager = (Villager) event.getEntity();
 
-                if(villager.getName().contains("[CombatLogger] ")) {
+                if(villager.getCustomName().contains("[CombatLogger] ")) {
                     Player player = event.getEntity().getKiller();
 
                     game.getPlayerKills().put(player.getUniqueId(), game.getPlayerKills().get(player.getUniqueId()) + 1);
 
-                    Bukkit.broadcastMessage(ChatColor.RED + villager.getName() + ChatColor.YELLOW + " was slain " +
+                    Bukkit.broadcastMessage(ChatColor.RED + villager.getCustomName() + ChatColor.YELLOW + " was slain " +
                             "by " + ChatColor.RED + player.getName() + ChatColor.GRAY + "[" + game.getPlayerKills().get(player.getUniqueId())
                             + "].");
 

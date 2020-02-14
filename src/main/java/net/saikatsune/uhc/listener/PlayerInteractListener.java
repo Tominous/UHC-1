@@ -136,7 +136,7 @@ public class PlayerInteractListener implements Listener {
         } else if(event.getRightClicked() instanceof Villager) {
             Villager villager = (Villager) event.getRightClicked();
 
-            if(villager.getName().contains("[CombatLogger] ")) {
+            if(villager.getCustomName().contains("[CombatLogger] ")) {
                 event.setCancelled(true);
             }
         }

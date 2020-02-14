@@ -232,7 +232,7 @@ public class Game extends JavaPlugin {
 
         for (Entity entity : Bukkit.getWorld("uhc_world").getEntities()) {
             if(entity instanceof Villager) {
-                if(entity.getName().contains("[CombatLogger] ")) {
+                if(entity.getCustomName().contains("[CombatLogger] ")) {
                     entity.remove();
                 }
             }
@@ -240,7 +240,7 @@ public class Game extends JavaPlugin {
 
         for (Entity entity : Bukkit.getWorld("uhc_nether").getEntities()) {
             if(entity instanceof Villager) {
-                if(entity.getName().contains("[CombatLogger] ")) {
+                if(entity.getCustomName().contains("[CombatLogger] ")) {
                     entity.remove();
                 }
             }
